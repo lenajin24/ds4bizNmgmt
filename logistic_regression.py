@@ -14,7 +14,8 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random
 model = LogisticRegression(max_iter=10000)
 model.fit(X_train, y_train)
 
-# reward true positive more
+# reward true positive more by setting a lower cutoff threshold
+# Else the model prefers to predict most people to be negative
 cutoff_threshold = 0.23
 y_pred = (model.predict_proba(X_test)[:, 1] >= cutoff_threshold).astype(int)
 auc_score = roc_auc_score(y_test, y_pred)
@@ -23,6 +24,7 @@ print(f'AUC: {auc_score:.4f}')
 cm = confusion_matrix(y_test, y_pred)
 print(f'Confusion Matrix:\ntn fp\nfn tp\n{cm}')
 
+# calculate lift
 sorted_probs = model.predict_proba(X_test)[:, 1]
 sorted_indices = np.argsort(sorted_probs)[::-1]
 num_samples = len(y_test)

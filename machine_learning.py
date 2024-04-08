@@ -20,15 +20,19 @@ y = data['HeartDiseaseorAttack'].values.astype(np.float32)
 scaler = StandardScaler()
 X = scaler.fit_transform(X)
 
-# Split the data into train and test sets
+# Split the data into train and test sets, use 33% test split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=24601)
 
-# Convert data to PyTorch tensors
+# Convert data to PyTorch tensors, nothing fancy just a bunch of matrices
 X_train_tensor = torch.tensor(X_train)
 X_test_tensor = torch.tensor(X_test)
 y_train_tensor = torch.tensor(y_train).view(-1, 1)
 y_test_tensor = torch.tensor(y_test).view(-1, 1)
 
+# NN setup. 5 layers with dropout at 2nd layer
+# 21 feature -> 128n -> 64n -> dropout -> 32n -> 8n -> 1n
+# all fully connected and uses RELU except last one uses
+# sigmoid.
 class Net(nn.Module):
     def __init__(self, input_size):
         super(Net, self).__init__()
@@ -48,12 +52,14 @@ class Net(nn.Module):
         x = torch.sigmoid(self.fc5(x))
         return x
 
-# Instantiate the model
 input_size = X_train.shape[1]
 model = Net(input_size)
 
 # Regular BCE loss will predict everything as negative :(
 # criterion = nn.BCELoss()
+# This is because regular loss function punishes fn and fp the same
+# The base rate of positive is too low. So it's best for the model
+# to predict everything as negative
 class WeightedBCELoss(nn.Module):
     def __init__(self, weight_positive, weight_negative):
         super(WeightedBCELoss, self).__init__()
@@ -71,11 +77,9 @@ weight_positive = 5  # Increase weight for positive class (reward true positives
 weight_negative = 1  # Decrease weight for negative class (punish false negatives more)
 criterion = WeightedBCELoss(weight_positive, weight_negative)
 
+# learning rate dictates how fast the model will learn
 optimizer = optim.Adam(model.parameters(), lr=0.005)
 
-
-
-# Training the model
 # Training the model
 num_epochs = 100
 train_losses = []
