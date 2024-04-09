@@ -33,6 +33,10 @@ y_test_tensor = torch.tensor(y_test).view(-1, 1)
 # 21 feature -> 128n -> 64n -> dropout -> 32n -> 8n -> 1n
 # all fully connected and uses RELU except last one uses
 # sigmoid.
+# perf-wise you can use 3 layers without dropout to achieve
+# similar performance. The optimal solution on this dataset
+# is just simple logistic regression and it seems you do not
+# need a super complicated model to mimic it.
 class Net(nn.Module):
     def __init__(self, input_size):
         super(Net, self).__init__()
