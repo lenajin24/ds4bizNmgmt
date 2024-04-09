@@ -41,8 +41,9 @@ print('y_test,y_pred')
 for i in range(num_bins):
     start_idx = i * bin_size
     end_idx = min((i + 1) * bin_size, num_samples)
-    true_positives_in_bin = np.sum(y_pred[sorted_indices[start_idx:end_idx]])
-    lift = true_positives_in_bin * num_bins / np.sum(y_test)
+    true_positives_in_bin = np.sum(np.multiply(y_pred[sorted_indices[start_idx:end_idx]], y_test.iloc[sorted_indices[start_idx:end_idx]]))
+    random_positives_in_bin = np.sum(y_test.iloc[sorted_indices[start_idx:end_idx]]) * np.sum(y_test) / len(y_test)
+    lift = true_positives_in_bin / random_positives_in_bin
     lift_values.append(lift)
     for j in sorted_indices[start_idx:end_idx]:
         print(f'{y_test.iloc[j]},{y_pred[j]:.3f}')

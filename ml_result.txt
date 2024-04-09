@@ -1,72 +1,57 @@
-(directml) lenaj@PowerHouse:~/test$ python3 machine_learning.py 
-Epoch [10/100], Train Loss: 1.0080, Test Loss: 0.9851
+Epoch [10/80], Train Loss: 0.9699, Test Loss: 0.9560
 Confusion Matrix:
 tn fp
 fn tp
 [[75848     0]
  [ 7867     0]]
-AUC: 0.7482
-Epoch [20/100], Train Loss: 0.9397, Test Loss: 0.9371
+AUC: 0.7591
+Epoch [20/80], Train Loss: 0.9332, Test Loss: 0.9311
 Confusion Matrix:
 tn fp
 fn tp
-[[75848     0]
- [ 7867     0]]
-AUC: 0.8185
-Epoch [30/100], Train Loss: 0.9319, Test Loss: 0.9306
+[[71280  4568]
+ [ 5298  2569]]
+AUC: 0.8190
+Epoch [30/80], Train Loss: 0.9284, Test Loss: 0.9269
 Confusion Matrix:
 tn fp
 fn tp
-[[75209   639]
- [ 7220   647]]
-AUC: 0.8265
-Epoch [40/100], Train Loss: 0.9247, Test Loss: 0.9231
+[[67845  8003]
+ [ 3992  3875]]
+AUC: 0.8329
+Epoch [40/80], Train Loss: 0.9229, Test Loss: 0.9216
 Confusion Matrix:
 tn fp
 fn tp
-[[68557  7291]
- [ 4050  3817]]
-AUC: 0.8381
-Epoch [50/100], Train Loss: 0.9177, Test Loss: 0.9165
+[[69186  6662]
+ [ 4217  3650]]
+AUC: 0.8416
+Epoch [50/80], Train Loss: 0.9173, Test Loss: 0.9166
 Confusion Matrix:
 tn fp
 fn tp
-[[68715  7133]
- [ 3984  3883]]
-AUC: 0.8427
-Epoch [60/100], Train Loss: 0.9154, Test Loss: 0.9145
+[[68424  7424]
+ [ 3885  3982]]
+AUC: 0.8446
+Epoch [60/80], Train Loss: 0.9152, Test Loss: 0.9149
 Confusion Matrix:
 tn fp
 fn tp
-[[69518  6330]
- [ 4154  3713]]
-AUC: 0.8455
-Epoch [70/100], Train Loss: 0.9137, Test Loss: 0.9136
+[[69356  6492]
+ [ 4136  3731]]
+AUC: 0.8465
+Epoch [70/80], Train Loss: 0.9137, Test Loss: 0.9143
 Confusion Matrix:
 tn fp
 fn tp
-[[69689  6159]
- [ 4197  3670]]
-AUC: 0.8472
-Epoch [80/100], Train Loss: 0.9128, Test Loss: 0.9134
+[[69554  6294]
+ [ 4168  3699]]
+AUC: 0.8475
+Epoch [80/80], Train Loss: 0.9128, Test Loss: 0.9142
 Confusion Matrix:
 tn fp
 fn tp
-[[69699  6149]
- [ 4178  3689]]
-AUC: 0.8478
-Epoch [90/100], Train Loss: 0.9123, Test Loss: 0.9133
-Confusion Matrix:
-tn fp
-fn tp
-[[69607  6241]
- [ 4139  3728]]
-AUC: 0.8480
-Epoch [100/100], Train Loss: 0.9117, Test Loss: 0.9133
-Confusion Matrix:
-tn fp
-fn tp
-[[69651  6197]
- [ 4159  3708]]
-AUC: 0.8479
-Train Accuracy: 0.8790, Test Accuracy: 0.8763
+[[69823  6025]
+ [ 4266  3601]]
+AUC: 0.8477
+Train Accuracy: 0.8801, Test Accuracy: 0.8771

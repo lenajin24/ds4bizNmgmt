@@ -85,7 +85,7 @@ criterion = WeightedBCELoss(weight_positive, weight_negative)
 optimizer = optim.Adam(model.parameters(), lr=0.005)
 
 # Training the model
-num_epochs = 100
+num_epochs = 80
 train_losses = []
 test_losses = []
 
@@ -129,12 +129,11 @@ train_accuracy = accuracy_score(y_train_tensor.numpy(), train_predicted.numpy())
 test_accuracy = accuracy_score(y_test_tensor.numpy(), test_predicted.numpy())
 print(f'Train Accuracy: {train_accuracy:.4f}, Test Accuracy: {test_accuracy:.4f}')
 
-predictions = test_outputs.numpy()
+predictions = test_outputs.numpy()[:,0]
 true_labels = y_test_tensor.numpy()
 
 # Sort predictions and true labels based on predicted probabilities
-sorted_indices = np.argsort(predictions[:, 0])[::-1] # desc
-sorted_predictions = predictions[sorted_indices]
+sorted_indices = np.argsort(predictions)[::-1] # desc
 sorted_labels = true_labels[sorted_indices]
 
 # Calculate lift
@@ -143,16 +142,21 @@ num_bins = 20
 bin_size = num_samples // num_bins
 lift_values = []
 
+print('y_test,y_pred')
 for i in range(num_bins):
     start_idx = i * bin_size
     end_idx = min((i + 1) * bin_size, num_samples)
-    true_positives_in_bin = np.sum(sorted_labels[start_idx:end_idx])
-    lift = true_positives_in_bin / ((i + 1) * bin_size)
+    true_positives_in_bin = np.sum(np.multiply(predictions[sorted_indices[start_idx:end_idx]], y_test[sorted_indices[start_idx:end_idx]]))
+    random_positives_in_bin = np.sum(y_test[sorted_indices[start_idx:end_idx]]) * np.sum(y_test) / len(y_test)
+    lift = true_positives_in_bin / random_positives_in_bin
     lift_values.append(lift)
+    for j in sorted_indices[start_idx:end_idx]:
+        print(f'{y_test[j]},{predictions[j]:.3f}')
+        continue
 
 # Plot lift curve
 plt.figure(figsize=(12, 10))
-plt.plot(np.arange(1, num_bins + 1), lift_values, marker='o', linestyle='-')
+plt.plot(np.arange(1, num_bins + 1) * 100// num_bins, lift_values, marker='o', linestyle='-')
 plt.xlabel('Percentage of Data')
 plt.ylabel('Lift')
 plt.title('Lift Curve')
@@ -160,7 +164,7 @@ plt.grid(True)
 plt.show()
 
 
-# Plot loss curves
+# # Plot loss curves
 plt.plot(train_losses, label='Train Loss')
 plt.plot(test_losses, label='Test Loss')
 plt.xlabel('Epochs')
